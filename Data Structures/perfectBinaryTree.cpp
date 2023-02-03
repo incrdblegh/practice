@@ -39,6 +39,6 @@ int main() {
     std::cout << "A perfect binary tree: " << std::boolalpha
               << isPerfectBinaryTree(root, getDepth(root)) << '\n';
     root->m_right->m_right = new Node{3};
-    std::cout << "A perfect binary tree: " << std::boolalpha
+    std::cout << "A perfect binary tree: "
               << isPerfectBinaryTree(root, getDepth(root)) << '\n';
 }
