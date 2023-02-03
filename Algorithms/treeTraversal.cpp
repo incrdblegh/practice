@@ -9,13 +9,13 @@ struct Node {
     Node* m_right{nullptr};
 };
 
-Node* newNode(int data) {
+Node* newNode(const int data) {
     Node* temp{new Node{data}};
     return temp;
 }
 
 // displaying the node first, then going to the left one, then to the right one
-void preorderTraversal(Node* root) {
+void preorderTraversal(const Node* root) {
     if (root) {
         std::cout << root->m_data << "->";
         preorderTraversal(root->m_left);
@@ -24,7 +24,7 @@ void preorderTraversal(Node* root) {
 }
 
 // going to the leftmost node first, displaying it, then going to the right one
-void inorderTraversal(Node* root) {
+void inorderTraversal(const Node* root) {
     if (root) {
         inorderTraversal(root->m_left);
         std::cout << root->m_data << "->";
@@ -33,7 +33,7 @@ void inorderTraversal(Node* root) {
 }
 
 // going to the leftmost node, then to the right one, then displaying it
-void postorderTraversal(Node* root) {
+void postorderTraversal(const Node* root) {
     if (root) {
         postorderTraversal(root->m_left);
         postorderTraversal(root->m_right);
