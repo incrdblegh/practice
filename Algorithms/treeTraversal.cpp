@@ -1,6 +1,5 @@
 // this program implements three types of tree traversal: preorder, inorder, and
-// postorder.
-// the code is (hopefully) self-explanatory.
+// postorder. the code is (hopefully) self-explanatory.
 
 #include <iostream>
 
