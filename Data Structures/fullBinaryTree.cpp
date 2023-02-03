@@ -32,6 +32,6 @@ int main() {
     std::cout << "The binary tree is full: " << std::boolalpha
               << isFullBinaryTree(root) << '\n';
     root->m_right->m_right = new Node{6};
-    std::cout << "The binary tree is full: " << std::boolalpha
+    std::cout << "The binary tree is full: "
               << isFullBinaryTree(root) << '\n';
 }
