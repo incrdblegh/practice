@@ -1,5 +1,4 @@
 // this program implements a perfect binary tree data structure.
-// the code is (hopefully) self-explanatory.
 
 #include <iostream>
 

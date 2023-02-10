@@ -1,3 +1,5 @@
+// this program implements a complete binary tree data structure.
+
 #include <iostream>
 
 struct Node {
