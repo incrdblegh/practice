@@ -20,7 +20,7 @@ void merge(std::vector<int>& nums, int first, int mid, int last) {
     int size{last - first + 1};        // size of sorted array
     std::vector<int> sorted(size, 0);  // sorted array
 
-    // compare elements of left and right subarrays
+    // compare and assign elements of left and right subarrays
     while (left <= mid && right <= last) {
         sorted.at(iterator++) =
             nums.at(left) < nums.at(right) ? nums.at(left++) : nums.at(right++);
