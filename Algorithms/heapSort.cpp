@@ -1,4 +1,4 @@
-// this program implements Heap Sort algorithm.
+// this program implements Heapsort algorithm.
 
 #include <iostream>
 #include <utility>
