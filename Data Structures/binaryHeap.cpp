@@ -64,7 +64,7 @@ void deleteNode(std::vector<int>& nums, int value) {
 }
 
 bool isMaxHeap(const std::vector<int>& nums, int node) {
-    if (node > nums.size() / 2 - 1) {
+    if (node >= (nums.size() - 1) / 2) {
         return true;  // return true if current node is leaf node
     }
     int left{node * 2 + 1};
@@ -80,7 +80,7 @@ bool isMaxHeap(const std::vector<int>& nums, int node) {
 }
 
 int main() {
-    std::vector<int> nums{5, 7, 3, 1, 9, 8, 4};
+    std::vector<int> nums{5, 4, 7, 6, 1, 3, 9, 2};
     print(nums);
     makeMaxHeap(nums);
     print(nums);
