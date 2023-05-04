@@ -22,14 +22,15 @@ bool bracesCheck(const std::string& braces) {
             char top = checker.top();
             // pop the matching brace
             checker.pop();
-            // the sequence is invalid if current brace and preivous checker brace don't match
+            // the sequence is invalid if current brace and previous checker brace don't match
             if ((brace == ')' && top != '(') || (brace == '}' && top != '{') ||
                 (brace == ']' && top != '[')) {
                 return false;
             }
         }
     }
-    // return true if either the sequence was empty, or all matching braces were popped
+    // return true if the sequence is empty, either because all matching braces were popped, or the
+    // string passed to the function was empty
     return checker.empty();
 }
 
