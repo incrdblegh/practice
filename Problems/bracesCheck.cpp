@@ -1,24 +1,35 @@
-// the following solution performs on average 2-2.5 times worse compared to the usual solution with
-// the || brace checks in if statements, but in turns it's easier to read and extend
-
 #include <iostream>
 #include <stack>
-#include <unordered_map>
 
 bool bracesCheck(const std::string& braces) {
+    // if the number of braces is odd, then the sequence is invalid
+    if (braces.length() % 2 == 1) {
+        return false;
+    }
     std::stack<char> checker;
-    std::unordered_map<char, char> matchingBraces = {{')', '('}, {'}', '{'}, {']', '['}};
 
     for (const auto& brace : braces) {
-        if (matchingBraces.count(brace) == 0) {
+        // add a valid opening brace to the checker
+        if (brace == '(' || brace == '{' || brace == '[') {
             checker.push(brace);
         } else {
-            if (checker.empty() || checker.top() != matchingBraces[brace]) {
+            // if current brace is not the opening one, and the checker is empty, then the brace is
+            // an invalid character
+            if (checker.empty()) {
                 return false;
             }
+            // store the value to avoid multiple evaluations in if statement
+            char top = checker.top();
+            // pop the matching brace
             checker.pop();
+            // the sequence is invalid if current brace and preivous checker brace don't match
+            if ((brace == ')' && top != '(') || (brace == '}' && top != '{') ||
+                (brace == ']' && top != '[')) {
+                return false;
+            }
         }
     }
+    // return true if either the sequence was empty, or all matching braces were popped
     return checker.empty();
 }
 
