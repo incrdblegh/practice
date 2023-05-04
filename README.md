@@ -1,1 +1,1 @@
-This repository contains simplistic solutions to some of the DSA that I covered.
+This repository contains solutions to some of the DSA that I covered.
