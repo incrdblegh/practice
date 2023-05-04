@@ -1,12 +1,14 @@
-// this program implements a recursive factorial algorithm. 
+// this program computes a factorial, potentially at compile-time
 
 #include <iostream>
 
-int calculateFactorial(int number) {
-    if (number == 1) {
-        return 1;
-    }
-    return number * calculateFactorial(number - 1);
+constexpr long long factorial(long long n) {
+    return n <= 1 ? 1 : n * factorial(n - 1);
 }
 
-int main() { std::cout << calculateFactorial(6) << '\n'; }
+int main() {
+    std::cout << factorial(1) << '\n';
+    std::cout << factorial(5) << '\n';
+    std::cout << factorial(15) << '\n';
+    std::cout << factorial(0) << '\n';
+}

@@ -1,0 +1,7 @@
+BasedOnStyle: LLVM 
+IndentWidth: 4
+DerivePointerAlignment: False
+PointerAlignment: Left
+ColumnLimit: 100
+AllowShortFunctionsOnASingleLine: Inline
+AlwaysBreakTemplateDeclarations: MultiLine
