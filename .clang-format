@@ -2,6 +2,6 @@ BasedOnStyle: LLVM
 IndentWidth: 4
 DerivePointerAlignment: False
 PointerAlignment: Left
-ColumnLimit: 100
+ColumnLimit: 110
 AllowShortFunctionsOnASingleLine: Inline
 AlwaysBreakTemplateDeclarations: MultiLine
