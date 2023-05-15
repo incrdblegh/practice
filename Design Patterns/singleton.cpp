@@ -3,7 +3,7 @@ class Singleton {
     Singleton() = default;
 
   public:
-    static Singleton& get_instance() {
+    static Singleton& getInstance() {
         // this doesn't cause memory leaks, 'new' will be called only once.
         // this approach is also thread-safe, and doesn't require explicit synchronization
         static Singleton* instance = new Singleton;
