@@ -23,8 +23,10 @@ class Triangle : public Shape {
 };
 
 class ShapeFactory {
-  public:
+  protected:
     virtual std::unique_ptr<Shape> createShape() const = 0;
+
+  public:
     void operation() const {
         auto newShape = createShape();
         newShape->draw();
@@ -46,9 +48,7 @@ class TriangleShapeFactory : public ShapeFactory {
     std::unique_ptr<Shape> createShape() const override { return std::make_unique<Triangle>(); }
 };
 
-void client(const ShapeFactory& factory) {
-    factory.operation();
-}
+void client(const ShapeFactory& factory) { factory.operation(); }
 
 int main() {
     CircleShapeFactory factory1;
