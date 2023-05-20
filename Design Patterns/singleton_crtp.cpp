@@ -3,8 +3,8 @@
 template <typename Derived> class Singleton {
   public:
     static Derived& getInstance() {
-        static Derived* instance = new Derived;
-        return *instance;
+        static Derived instance;
+        return instance;
     }
     Singleton(const Singleton&) = delete;
     Singleton(Singleton&&) = delete;
