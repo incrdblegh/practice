@@ -39,7 +39,8 @@ class ShapeRegistry final {
         m_registry[shape] = std::move(prototype);
     }
     std::unique_ptr<Shape> cloneShape(const Shapes shape) {
-        if (m_registry[shape]) {
+        auto it = m_registry.find(shape);
+        if (it != m_registry.end()) {
             return m_registry[shape]->clone();
         }
         return nullptr;
@@ -55,6 +56,7 @@ void client() {
     auto registry = std::make_unique<ShapeRegistry>();
     registry->addShape(Shapes::CIRCLE, std::move(circle));
     auto clone = registry->cloneShape(Shapes::CIRCLE);
+    registry->removeShape(Shapes::CIRCLE);
     clone->draw();
 }
 
