@@ -1,49 +1,62 @@
 #include <iostream>
 #include <memory>
+#include <string>
 
 class Beverage {
   public:
     virtual ~Beverage() = default;
-    virtual int getCost() const = 0;
+    virtual std::string getDescription() = 0;
+    virtual int getCost() = 0;
 };
 
 class Coffee : public Beverage {
   public:
-    int getCost() const override { return 20; }
+    std::string getDescription() override { return "coffee"; }
+    int getCost() override { return 20; }
+};
+
+class Tea : public Beverage {
+  public:
+    std::string getDescription() override { return "tea"; }
+    int getCost() override { return 15; }
+};
+
+class Juice : public Beverage {
+  public:
+    std::string getDescription() override { return "juice"; }
+    int getCost() override { return 18; }
 };
 
 class Addon : public Beverage {
   public:
     Addon(std::unique_ptr<Beverage> beverage) : m_beverage{std::move(beverage)} {}
-    int getCost() const override = 0;
 
-  private:
+  protected:
     std::unique_ptr<Beverage> m_beverage;
 };
-
-// provide a default definition that can be used in the derived classes
-int Addon::getCost() const { return m_beverage->getCost(); }
 
 class Milk : public Addon {
   public:
     using Addon::Addon;
-    int getCost() const override { return 5 + Addon::getCost(); }
+    std::string getDescription() override { return m_beverage->getDescription() + " + milk"; }
+    int getCost() override { return m_beverage->getCost() + 7; }
 };
 
 class Sugar : public Addon {
   public:
     using Addon::Addon;
-    int getCost() const override { return 1 + Addon::getCost(); }
+    std::string getDescription() override { return m_beverage->getDescription() + " + sugar"; }
+    int getCost() override { return m_beverage->getCost() + 3; }
 };
 
-class Cream : public Addon {
+class Honey : public Addon {
   public:
     using Addon::Addon;
-    int getCost() const override { return 8 + Addon::getCost(); }
+    std::string getDescription() override { return m_beverage->getDescription() + " + honey"; }
+    int getCost() override { return m_beverage->getCost() + 5; }
 };
 
 int main() {
-    auto coffeeWithMilkSugarCream =
-        std::make_unique<Cream>(std::make_unique<Sugar>(std::make_unique<Milk>(std::make_unique<Coffee>())));
-    std::cout << coffeeWithMilkSugarCream->getCost();
+    auto beverage = std::make_unique<Honey>(std::make_unique<Milk>(std::make_unique<Tea>()));
+    std::cout << beverage->getDescription() << " costs " << beverage->getCost() << " uah\n";
 }
