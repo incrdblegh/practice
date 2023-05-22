@@ -1,81 +1,85 @@
-// tasks: 1. add comments. 2. follow the best practices.
-
 #include <iostream>
 #include <memory>
-#include <string>
 
+// The Logger class defines the interface for handling requests.
 class Logger {
   public:
-    virtual ~Logger() = default;
-    [[nodiscard]] virtual std::string handler(const std::string&) const = 0;
-    virtual std::shared_ptr<Logger> setNext(const std::shared_ptr<Logger>&) = 0;
-};
-
-class AbstractLogger : public Logger {
-  public:
-    std::string handler(const std::string& request) const override {
+    // Use pure virtual destructor to make the class abstract.
+    virtual ~Logger() = 0;
+    // Handles the given request. If this logger can't handle the request, it passes it to the next logger in
+    // the chain.
+    virtual void handler(const std::string_view request) const {
         if (m_nextLogger) {
-            return m_nextLogger->handler(request);
+            m_nextLogger->handler(request);
+        } else {
+            std::cout << request << " request wasn't handled.\n";
         }
-        return {};
-    }
-    std::shared_ptr<Logger> setNext(const std::shared_ptr<Logger>& logger) override {
-        m_nextLogger = logger;
-        return m_nextLogger;
     }
 
-  private:
+    // Sets the next logger in the chain and returns a reference to it.
+    virtual Logger& setNext(std::shared_ptr<Logger> logger) {
+        m_nextLogger = std::move(logger);
+        return *m_nextLogger;
+    }
+
+  protected:
+    // The next logger in the chain.
     std::shared_ptr<Logger> m_nextLogger;
 };
 
-class ErrorLogger : public AbstractLogger {
+// A pure virtual destructor still needs a definition, otherwise the program won't link.
+Logger::~Logger() = default;
+
+// The ErrorLogger class handles error requests.
+class ErrorLogger : public Logger {
   public:
-    std::string handler(const std::string& request) const override {
+    // Handles error requests. If the request is not an error, it passes it to the next logger in the chain.
+    void handler(const std::string_view request) const override {
         if (request == "error") {
-            return "ErrorLogger handles the " + request + " request\n";
+            std::cout << "ErrorLogger handles the " << request << " request.\n";
+        } else {
+            Logger::handler(request);
         }
-        return AbstractLogger::handler(request);
     }
 };
 
-class WarningLogger : public AbstractLogger {
+// The WarningLogger class handles warning requests.
+class WarningLogger : public Logger {
   public:
-    std::string handler(const std::string& request) const override {
+    // Handles warning requests. If the request is not a warning, it passes it to the next logger in the
+    // chain.
+    void handler(const std::string_view request) const override {
         if (request == "warning") {
-            return "WarningLogger handles the " + request + " request\n";
+            std::cout << "WarningLogger handles the " << request << " request.\n";
+        } else {
+            Logger::handler(request);
         }
-        return AbstractLogger::handler(request);
     }
 };
 
-class InfoLogger : public AbstractLogger {
+// The InfoLogger class handles info requests.
+class InfoLogger : public Logger {
   public:
-    std::string handler(const std::string& request) const override {
+    // Handles info requests. If the request is not an info, it passes it to the next logger in the chain.
+    void handler(const std::string_view request) const override {
         if (request == "info") {
-            return "InfoLogger handles the " + request + " request\n";
+            std::cout << "InfoLogger handles the " << request << " request.\n";
+        } else {
+            Logger::handler(request);
         }
-        return AbstractLogger::handler(request);
     }
 };
-
-void clientCode(const std::shared_ptr<Logger>& logger, const std::string& request) {
-    std::cout << "Client sends a request: " << request << '\n';
-    std::string result = logger->handler(request);
-    if (!result.empty()) {
-        std::cout << "Logger chain output: " << result << '\n';
-    } else {
-        std::cout << "The request was not handled by the logger chain." << '\n';
-    }
-}
 
 int main() {
-    auto errorLogger = std::make_shared<ErrorLogger>();
-    auto warningLogger = std::make_shared<WarningLogger>();
-    auto infoLogger = std::make_shared<InfoLogger>();
-    errorLogger->setNext(warningLogger)->setNext(infoLogger);
+    // Create loggers and set up the chain of responsibility.
+    const auto error = std::make_shared<ErrorLogger>();
+    const auto warning = std::make_shared<WarningLogger>();
+    const auto info = std::make_shared<InfoLogger>();
+    error->setNext(warning).setNext(info);
 
-    clientCode(errorLogger, "info");
-    clientCode(errorLogger, "warning");
-    clientCode(errorLogger, "error");
-    clientCode(errorLogger, "debug");
+    // Send requests to a logger in the chain.
+    warning->handler("error");
+    warning->handler("warning");
+    warning->handler("info");
+    warning->handler("placeholder");
 }
