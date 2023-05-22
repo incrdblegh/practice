@@ -10,14 +10,14 @@ class TreeNode {
     virtual ~TreeNode() = default;
 
     // Returns a string representation of the tree node.
-    virtual std::string print() = 0;
+    [[nodiscard]] virtual std::string print() const = 0;
 };
 
 // Concrete class representing a leaf node in a tree structure.
 class Leaf : public TreeNode {
   public:
     // Returns a string representation of the leaf node.
-    std::string print() override { return "leaf"; }
+    std::string print() const override { return "leaf"; }
 };
 
 // Concrete class representing a composite node in a tree structure.
@@ -33,7 +33,7 @@ class Composite : public TreeNode {
     }
 
     // Returns a string representation of the composite node and its children.
-    std::string print() override {
+    std::string print() const override {
         std::string result{"composite("};
         for (const auto& node : m_nodes) {
             // Print the closing parentheses if it's the last node.
