@@ -4,42 +4,55 @@
 #include <string>
 #include <vector>
 
-class Component {
+// Abstract base class representing a node in a tree structure.
+class TreeNode {
   public:
-    virtual ~Component() = default;
-    virtual std::string operation() = 0;
+    virtual ~TreeNode() = default;
+
+    // Returns a string representation of the tree node.
+    virtual std::string print() = 0;
 };
 
-class Leaf : public Component {
+// Concrete class representing a leaf node in a tree structure.
+class Leaf : public TreeNode {
   public:
-    std::string operation() override { return "leaf"; }
+    // Returns a string representation of the leaf node.
+    std::string print() override { return "leaf"; }
 };
 
-class Composite : public Component {
+// Concrete class representing a composite node in a tree structure.
+class Composite : public TreeNode {
   public:
-    void addNode(const std::shared_ptr<Component>& node) { m_components.push_back(node); }
-    void removeNode(const std::shared_ptr<Component>& node) {
-      // use erase-remove idiom to delete the node
-        m_components.erase(std::remove(m_components.begin(), m_components.end(), node), m_components.end());
+    // Adds the given node as a child of the composite node.
+    void addNode(const std::shared_ptr<TreeNode>& node) { m_nodes.push_back(node); }
+
+    // Removes the given node from the children of the composite node.
+    void removeNode(const std::shared_ptr<TreeNode>& node) {
+        // Use erase-remove idiom to delete the node.
+        m_nodes.erase(std::remove(m_nodes.begin(), m_nodes.end(), node), m_nodes.end());
     }
-    std::string operation() override {
+
+    // Returns a string representation of the composite node and its children.
+    std::string print() override {
         std::string result{"composite("};
-        for (const auto& node : m_components) {
-          // print a closing parentheses instead of a comma if it's the last component
-            if (node != m_components.back()) {
-                result += node->operation() + ", ";
+        for (const auto& node : m_nodes) {
+            // Print the closing parentheses if it's the last node.
+            if (node != m_nodes.back()) {
+                result += node->print() + ", ";
             } else {
-                result += node->operation() + ")";
+                result += node->print() + ")";
             }
         }
         return result;
     }
 
   private:
-    std::vector<std::shared_ptr<Component>> m_components;
+    // The child nodes of the composite node.
+    std::vector<std::shared_ptr<TreeNode>> m_nodes;
 };
 
 int main() {
+    // Create a tree structure with two composite nodes and three leaf nodes.
     auto headComposite = std::make_shared<Composite>();
     auto leaf1 = std::make_shared<Leaf>();
     headComposite->addNode(leaf1);
@@ -49,5 +62,7 @@ int main() {
     auto leaf3 = std::make_shared<Leaf>();
     composite1->addNode(leaf2);
     composite1->addNode(leaf3);
-    std::cout << headComposite->operation();
+
+    // Print the string representation of the tree structure.
+    std::cout << headComposite->print();
 }
