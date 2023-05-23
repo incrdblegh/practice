@@ -8,49 +8,44 @@
 // of people entering and leaving a room. It returns the number of times the
 // light in the room was turned on.
 int times(const std::vector<std::pair<int, int>>& persons) {
-    // Get the number of people.
-    int n = persons.size();
-
     // Create a vector to store events.
     std::vector<std::pair<int, int>> events;
 
     // For each person, add two events to the vector: one for entering the room
     // and one for leaving the room. The second element of each pair is 1 for
     // entering and -1 for leaving.
-    for (const auto& [start, end] : persons) {
-        events.emplace_back(start, 1);
-        events.emplace_back(end, -1);
+    for (const auto& [on, off] : persons) {
+        events.emplace_back(on, 1);
+        events.emplace_back(off, -1);
     }
     // Sort the events in ascending order by time.
     std::sort(events.begin(), events.end());
 
-    // Initialize count to 0. This variable will keep track of the number of
-    // times the light was turned on.
-    int count = 0;
+    // This variable will keep track of the number of times the light was turned on.
+    int onCount = 0;
 
-    // Initialize light to 0. This variable will keep track of the number of
-    // people currently in the room.
-    int light = 0;
+    // This variable will keep track of the number of people currently in the room.
+    int people = 0;
 
     // Process each event in order.
     for (const auto& [time, type] : events) {
         if (type == 1) {
             // If this is an entering event and there is no one currently in
             // the room, increment count and turn on the light.
-            if (light == 0) {
-                ++count;
+            if (people == 0) {
+                ++onCount;
             }
             // Increment light to indicate that there is one more person in
             // the room.
-            ++light;
+            ++people;
         } else {
             // If this is a leaving event, decrement light to indicate that
             // there is one less person in the room.
-            --light;
+            --people;
         }
     }
-    // Return the final count
-    return count;
+    // Return the final count.
+    return onCount;
 }
 
 int main() {
