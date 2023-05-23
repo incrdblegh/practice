@@ -2,36 +2,26 @@
 #include <stack>
 
 bool bracesCheck(const std::string& braces) {
-    // if the number of braces is odd, then the sequence is invalid
-    if (braces.length() % 2 == 1) {
-        return false;
-    }
-    std::stack<char> checker;
+    // Create a stack to keep track of opening brackets
+    std::stack<char> matcher;
 
+    // Iterate over each character in the input string
     for (const auto& brace : braces) {
-        // add a valid opening brace to the checker
+        // If the character is an opening bracket, push it onto the stack
         if (brace == '(' || brace == '{' || brace == '[') {
-            checker.push(brace);
+            matcher.push(brace);
         } else {
-            // if current brace is not the opening one, and the checker is empty, then the brace is
-            // an invalid character
-            if (checker.empty()) {
+            // If the stack is empty or the top of the stack doesn't match the closing bracket, return false
+            if (matcher.empty() || (matcher.top() == '(' && brace != ')') ||
+                (matcher.top() == '{' && brace != '}') || (matcher.top() == '[' && brace != ']')) {
                 return false;
             }
-            // store the value to avoid multiple evaluations in if statement
-            char top = checker.top();
-            // pop the matching brace
-            checker.pop();
-            // the sequence is invalid if current brace and previous checker brace don't match
-            if ((brace == ')' && top != '(') || (brace == '}' && top != '{') ||
-                (brace == ']' && top != '[')) {
-                return false;
-            }
+            // Pop the top of the stack
+            matcher.pop();
         }
     }
-    // return true if the sequence is empty, either because all matching braces were popped, or the
-    // string passed to the function was empty
-    return checker.empty();
+    // If the stack is empty at the end, all pairs of parentheses match and are nested correctly
+    return matcher.empty();
 }
 
 int main() {
