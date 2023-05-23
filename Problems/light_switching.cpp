@@ -11,41 +11,44 @@ int times(const std::vector<std::pair<int, int>>& persons) {
     // Create a vector to store events.
     std::vector<std::pair<int, int>> events;
 
+    // Reserve space for the known number of people. 
+    events.reserve(persons.size());
+
     // For each person, add two events to the vector: one for entering the room
     // and one for leaving the room. The second element of each pair is 1 for
     // entering and -1 for leaving.
-    for (const auto& [on, off] : persons) {
-        events.emplace_back(on, 1);
-        events.emplace_back(off, -1);
+    for (const auto& [entryTime, exitTime] : persons) {
+        events.emplace_back(entryTime, 1);
+        events.emplace_back(exitTime, -1);
     }
     // Sort the events in ascending order by time.
     std::sort(events.begin(), events.end());
 
     // This variable will keep track of the number of times the light was turned on.
-    int onCount = 0;
+    int lightOnCount = 0;
 
-    // This variable will keep track of the number of people currently in the room.
-    int people = 0;
+    // This variable will keep track of the number of persons currently in the room.
+    int personCount = 0;
 
     // Process each event in order.
-    for (const auto& [time, type] : events) {
-        if (type == 1) {
+    for (const auto& [eventTime, eventType] : events) {
+        if (eventType == 1) {
             // If this is an entering event and there is no one currently in
             // the room, increment count and turn on the light.
-            if (people == 0) {
-                ++onCount;
+            if (personCount == 0) {
+                ++lightOnCount;
             }
             // Increment light to indicate that there is one more person in
             // the room.
-            ++people;
+            ++personCount;
         } else {
             // If this is a leaving event, decrement light to indicate that
             // there is one less person in the room.
-            --people;
+            --personCount;
         }
     }
     // Return the final count.
-    return onCount;
+    return lightOnCount;
 }
 
 int main() {
