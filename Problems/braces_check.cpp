@@ -25,16 +25,17 @@ bool bracesCheck(const std::string& braces) {
 }
 
 int main() {
-    std::cout << std::boolalpha << bracesCheck("()") << std::endl;      // prints true
-    std::cout << std::boolalpha << bracesCheck("[]") << std::endl;      // prints true
-    std::cout << std::boolalpha << bracesCheck("{}") << std::endl;      // prints true
-    std::cout << std::boolalpha << bracesCheck("({[]})") << std::endl;  // prints true
-    std::cout << std::boolalpha << bracesCheck("(") << std::endl;       // prints false
-    std::cout << std::boolalpha << bracesCheck(")") << std::endl;       // prints false
-    std::cout << std::boolalpha << bracesCheck("(}") << std::endl;      // prints false
-    std::cout << std::boolalpha << bracesCheck("([)]") << std::endl;    // prints false
-    std::cout << std::boolalpha << bracesCheck("") << std::endl;        // prints true
-    std::cout << std::boolalpha << bracesCheck("()[]{}") << std::endl;  // prints true
-    std::cout << std::boolalpha << bracesCheck("a") << std::endl;       // prints false
-    std::cout << std::boolalpha << bracesCheck("()[b]{}") << std::endl; // prints false
+    std::cout << std::boolalpha;
+    std::cout << bracesCheck("()") << std::endl;      // prints true
+    std::cout << bracesCheck("[]") << std::endl;      // prints true
+    std::cout << bracesCheck("{}") << std::endl;      // prints true
+    std::cout << bracesCheck("({[]})") << std::endl;  // prints true
+    std::cout << bracesCheck("(") << std::endl;       // prints false
+    std::cout << bracesCheck(")") << std::endl;       // prints false
+    std::cout << bracesCheck("(}") << std::endl;      // prints false
+    std::cout << bracesCheck("([)]") << std::endl;    // prints false
+    std::cout << bracesCheck("") << std::endl;        // prints true
+    std::cout << bracesCheck("()[]{}") << std::endl;  // prints true
+    std::cout << bracesCheck("a") << std::endl;       // prints false
+    std::cout << bracesCheck("()[b]{}") << std::endl; // prints false
 }
