@@ -1,3 +1,6 @@
+// Time complexity: O(n+k), where n = number of elements, k = range of input. 
+// Space complexity: O(k), where k = range of input. 
+
 #include <algorithm>
 #include <iostream>
 #include <vector>
