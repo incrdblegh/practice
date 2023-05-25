@@ -60,7 +60,7 @@ class ChatRoom : public Mediator {
         if (m_users.count(userID)) {
             std::cout << "User ID::" << userID << " sent a message.\n";
             for (const auto& [id, user] : m_users) {
-                if (user->getID() != userID) {
+                if (id != userID) {
                     user->receive(message);
                 }
             }
