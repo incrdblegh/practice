@@ -62,9 +62,8 @@ class ShapeRegistry final {
 
     // Method to clone a shape from the registry
     std::unique_ptr<Shape> cloneShape(const Shapes shape) {
-        auto it = m_registry.find(shape);
-        if (it != m_registry.end()) {
-            return it->second->clone();
+        if (m_registry.count(shape)) {
+            return m_registry[shape]->clone();
         }
         return nullptr;
     }
