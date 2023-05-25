@@ -1,3 +1,7 @@
+// Apparently this is also an abstract factory, and to turn it into a Factory Method pattern there must
+// be a sigle Factory class that has a function that conditionally creates objects using a string or an
+// enumerator, and switch or if-else statements.
+
 #include <iostream>
 #include <memory>
 #include <string>
