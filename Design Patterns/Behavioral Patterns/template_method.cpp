@@ -25,13 +25,13 @@ class Sorter {
 
 // Concrete implementation of a step of the template method.
 class AscendingSorter : public Sorter {
-  public:
+  protected:
     bool compare(const int a, const int b) const override { return a < b; }
 };
 
 // Concrete implementation of a step of the template method.
 class DescendingSorter : public Sorter {
-  public:
+  protected:
     bool compare(const int a, const int b) const override { return a > b; }
 };
 
