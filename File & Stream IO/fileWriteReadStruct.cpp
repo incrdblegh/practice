@@ -1,6 +1,7 @@
-// This program makes use of return codes instead of exceptions for the reason of my evening laziness. 
+// This program makes use of return codes instead of exceptions as a personal experiment.
 
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <string>
 
@@ -50,8 +51,20 @@ void printPerson(const Person& person) {
 int main() {
     const Person person = {"Alex", 25};
     const std::string filename{"person.txt"};
-    writePerson(filename, person);
+
+    if (writePerson(filename, person) != 0) {
+        return 1;
+    }
+
     Person newPerson;
-    readPerson(filename, newPerson);
+
+    if (readPerson(filename, newPerson) != 0) {
+        return 1;
+    }
+
     printPerson(person);
+
+    if (deleteFile(filename) != 0) {
+        return 1;
+    }
 }
