@@ -1,10 +1,11 @@
-// The error handling in this program is somewhat lacking, but will do for now. 
+// The error handling in this program is somewhat lacking, but will do for now.
 
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 
+// A function to fill a file with words.
 int writeWords(const std::string& filename) {
     std::ofstream outputFileStream{filename};
     if (!outputFileStream) {
@@ -15,6 +16,7 @@ int writeWords(const std::string& filename) {
     return 0;
 }
 
+// A function to count words in a line.
 int countWords(const std::string& line) {
     std::istringstream inputStringStream{line};
     std::string word;
@@ -25,6 +27,8 @@ int countWords(const std::string& line) {
     return count;
 }
 
+// A function to read words from a file, count their number, and print the number.
+// Certainly doesn't follow the single responsibility principle.
 int printNumberOfWords(const std::string& filename) {
     std::ifstream inputFileStream{filename};
     if (!inputFileStream) {
@@ -41,13 +45,12 @@ int printNumberOfWords(const std::string& filename) {
 
 int main() {
     const std::string filename{"text.txt"};
-
-    if (writeWords(filename) != 0) {
+    
+    if (writeWords(filename)) {
         std::cerr << "Error writing words to the file.\n";
         return 1;
     };
-
-    if (printNumberOfWords(filename) != 0) {
+    if (printNumberOfWords(filename)) {
         std::cerr << "Error reading words from a file.\n";
         return 1;
     };
