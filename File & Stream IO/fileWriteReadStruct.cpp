@@ -1,7 +1,6 @@
 // This program makes use of return codes instead of exceptions as a personal experiment.
 
 #include <fstream>
-#include <iomanip>
 #include <iostream>
 #include <string>
 
