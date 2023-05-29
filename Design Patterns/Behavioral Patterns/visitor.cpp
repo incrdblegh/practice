@@ -9,7 +9,7 @@ class Visitor;
 class Shape {
   public:
     virtual ~Shape() = default;
-    virtual void accept(const std::unique_ptr<Visitor>& visitor) const = 0;
+    virtual void applyVisitor(const std::shared_ptr<Visitor> visitor) const = 0;
 };
 
 // Concrete element class.
@@ -18,7 +18,7 @@ class Rectangle : public Shape {
     Rectangle(const int width, const int height) : m_width{width}, m_height{height} {}
     int getWidth() const { return m_width; }
     int getHeight() const { return m_height; }
-    void accept(const std::unique_ptr<Visitor>& visitor) const override;
+    void applyVisitor(const std::shared_ptr<Visitor> visitor) const override;
 
   private:
     const int m_width{};
@@ -30,7 +30,7 @@ class Square : public Shape {
   public:
     Square(const int side) : m_side{side} {}
     int getSide() const { return m_side; }
-    void accept(const std::unique_ptr<Visitor>& visitor) const override;
+    void applyVisitor(const std::shared_ptr<Visitor> visitor) const override;
 
   private:
     const int m_side{};
@@ -56,15 +56,15 @@ class ShapeVisitor : public Visitor {
     }
 };
 
-void Rectangle::accept(const std::unique_ptr<Visitor>& visitor) const { visitor->visit(this); }
-void Square::accept(const std::unique_ptr<Visitor>& visitor) const { visitor->visit(this); }
+void Rectangle::applyVisitor(const std::shared_ptr<Visitor> visitor) const { visitor->visit(this); }
+void Square::applyVisitor(const std::shared_ptr<Visitor> visitor) const { visitor->visit(this); }
 
 void client() {
     const auto rectangle = std::make_unique<Rectangle>(5, 8);
     const auto square = std::make_unique<Square>(4);
-    const auto visitor = std::make_unique<ShapeVisitor>();
-    visitor->visit(rectangle.get());
-    visitor->visit(square.get());
+    const auto visitor = std::make_shared<ShapeVisitor>();
+    rectangle->applyVisitor(visitor);
+    square->applyVisitor(visitor);
 }
 
 int main() { client(); }
