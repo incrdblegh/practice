@@ -1,8 +1,9 @@
-// This program makes use of return codes instead of exceptions as a personal experiment.
-
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
+
+namespace fs = std::filesystem;
 
 struct Person {
     std::string m_name;
@@ -10,8 +11,8 @@ struct Person {
 };
 
 // A function to write the Person struct to a file.
-int writePerson(const std::string& filename, const Person& person) {
-    std::ofstream outputFileStream{filename};
+int writePerson(const fs::path& datafile, const Person& person) {
+    std::ofstream outputFileStream{datafile};
     if (!outputFileStream) {
         std::cerr << "Error opening a file.\n";
         return 1;
@@ -21,8 +22,8 @@ int writePerson(const std::string& filename, const Person& person) {
 }
 
 // A functin to read the Person struct from a file.
-int readPerson(const std::string& filename, Person& person) {
-    std::ifstream inputFileStream{filename};
+int readPerson(const fs::path& datafile, Person& person) {
+    std::ifstream inputFileStream{datafile};
     if (!inputFileStream) {
         std::cerr << "Error opening a file.\n";
         return 1;
@@ -32,13 +33,13 @@ int readPerson(const std::string& filename, Person& person) {
 }
 
 // A function to delete a file after completing file I/O operations.
-int deleteFile(const std::string& filename) {
-    if (std::remove(filename.c_str()) != 0) {
+int deleteFile(const fs::path& datafile) {
+    if (fs::remove(datafile)) {
+        std::cout << "File deleted successfully.\n";
+        return 0;
+    } else {
         std::cerr << "Error deleting the file.\n";
         return 1;
-    } else {
-        std::cerr << "File deleted successfully.\n";
-        return 0;
     }
 }
 
@@ -48,22 +49,22 @@ void printPerson(const Person& person) {
 }
 
 int main() {
-    const Person person = {"Alex", 25};
-    const std::string filename{"person.txt"};
+    const Person person = {"Garrison", 34};
+    const fs::path datafile{"person.txt"};
 
-    if (writePerson(filename, person) != 0) {
+    if (writePerson(datafile, person) != 0) {
         return 1;
     }
 
     Person newPerson;
 
-    if (readPerson(filename, newPerson) != 0) {
+    if (readPerson(datafile, newPerson) != 0) {
         return 1;
     }
 
     printPerson(person);
 
-    if (deleteFile(filename) != 0) {
+    if (deleteFile(datafile) != 0) {
         return 1;
     }
 }
