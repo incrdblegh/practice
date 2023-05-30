@@ -1,13 +1,14 @@
-// The error handling in this program is somewhat lacking, but will do for now.
-
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 
+namespace fs = std::filesystem;
+
 // A function to fill a file with words.
-int writeWords(const std::string& filename) {
-    std::ofstream outputFileStream{filename};
+int writeWords(const fs::path& datafile) {
+    std::ofstream outputFileStream{datafile};
     if (!outputFileStream) {
         return 1;
     }
@@ -29,8 +30,8 @@ int countWords(const std::string& line) {
 
 // A function to read words from a file, count their number, and print the number.
 // Certainly doesn't follow the single responsibility principle.
-int printNumberOfWords(const std::string& filename) {
-    std::ifstream inputFileStream{filename};
+int printNumberOfWords(const fs::path& datafile) {
+    std::ifstream inputFileStream{datafile};
     if (!inputFileStream) {
         return 1;
     }
@@ -44,13 +45,13 @@ int printNumberOfWords(const std::string& filename) {
 }
 
 int main() {
-    const std::string filename{"text.txt"};
+    const fs::path datafile{"text.txt"};
     
-    if (writeWords(filename)) {
+    if (writeWords(datafile)) {
         std::cerr << "Error writing words to the file.\n";
         return 1;
     };
-    if (printNumberOfWords(filename)) {
+    if (printNumberOfWords(datafile)) {
         std::cerr << "Error reading words from a file.\n";
         return 1;
     };
