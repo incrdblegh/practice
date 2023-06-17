@@ -1,8 +1,9 @@
 BasedOnStyle: LLVM
 IndentWidth: 4 
-DerivePointerAlignment: False 
+DerivePointerAlignment: false
 PointerAlignment: Left 
-ColumnLimit: 110 
+ColumnLimit: 100 
 AllowShortCaseLabelsOnASingleLine: true
 IndentCaseLabels: true
 AllowShortFunctionsOnASingleLine: All
+AlwaysBreakTemplateDeclarations: true
